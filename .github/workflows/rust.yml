@@ -18,14 +18,14 @@ jobs:
           override: true
 
       - name: Build
-        run: cargo build --all --release && strip target/release/RogueLikeRust && mv target/release/RogueLikeRust target/release/RogueLikeRust_amd64
+        run: cargo build --all --release && strip target/release/roguelike && mv target/release/roguelike target/release/roguelike_amd64
 
       - name: Release
         uses: softprops/action-gh-release@v1
         if: startsWith(github.ref, 'refs/tags/')
         with:
           files: |
-            target/release/RogueLikeRust_amd64
+            target/release/roguelike_amd64
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -50,7 +50,7 @@ jobs:
         uses: softprops/action-gh-release@v1
         if: startsWith(github.ref, 'refs/tags/')
         with:
-          files: target/release/RogueLikeRust.exe
+          files: target/release/roguelike.exe
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -70,13 +70,13 @@ jobs:
           override: true
 
       - name: Build for mac
-        run: cargo build --all --release && strip target/release/RogueLikeRust && mv target/release/RogueLikeRust target/release/RogueLikeRust_darwin
+        run: cargo build --all --release && strip target/release/roguelike && mv target/release/roguelike target/release/roguelike_darwin
 
       - name: Release
         uses: softprops/action-gh-release@v1
         if: startsWith(github.ref, 'refs/tags/')
         with:
           files: |
-            target/release/RogueLikeRust_darwin
+            target/release/roguelike_darwin
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
