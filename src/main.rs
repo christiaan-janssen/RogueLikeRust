@@ -12,14 +12,13 @@ use player::*;
 mod visibility_systems;
 use visibility_systems::*;
 
-
 pub struct State {
     ecs: World,
 }
 
 impl State {
     fn run_systems(&mut self) {
-        let mut vis = VisibilitySystem{};
+        let mut vis = VisibilitySystem {};
         vis.run_now(&self.ecs);
         self.ecs.maintain();
     }
@@ -54,20 +53,27 @@ fn main() -> rltk::BError {
     gs.ecs.register::<Player>();
     gs.ecs.register::<Viewshed>();
 
-    let map : Map = Map::new_map_rooms_and_corridors();
-    let(player_x, player_y) = map.rooms[0].center();
+    let map: Map = Map::new_map_rooms_and_corridors();
+    let (player_x, player_y) = map.rooms[0].center();
     gs.ecs.insert(map);
 
     gs.ecs
         .create_entity()
-        .with(Position { x: player_x, y: player_y })
+        .with(Position {
+            x: player_x,
+            y: player_y,
+        })
         .with(Renderable {
             glyph: rltk::to_cp437('@'),
             fg: RGB::named(rltk::YELLOW),
             bg: RGB::named(rltk::BLACK),
         })
         .with(Player {})
-        .with(Viewshed{ visible_tiles: Vec::new(), range: 8 })
+        .with(Viewshed {
+            visible_tiles: Vec::new(),
+            range: 8,
+            dirty: true,
+        })
         .build();
 
     rltk::main_loop(context, gs)
